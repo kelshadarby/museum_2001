@@ -17,6 +17,8 @@ class MuseumTest < Minitest::Test
     @patron_1.add_interest("Gems and Minerals")
     @patron_2 = Patron.new("Sally", 20)
     @patron_2.add_interest("IMAX")
+    @patron_3 = Patron.new("Johnny", 5)
+    @patron_3.add_interest("Dead Sea Scrolls")
   end
 
   def test_it_exists
@@ -44,5 +46,16 @@ class MuseumTest < Minitest::Test
     assert_equal [@gems_and_minerals, @dead_sea_scrolls], @dmns.recommend_exhibits(@patron_1)
     assert_equal [@imax], @dmns.recommend_exhibits(@patron_2)
   end
-  
+
+  def test_it_can_admit_patrons
+    @dmns.add_exhibit(@gems_and_minerals)
+    @dmns.add_exhibit(@dead_sea_scrolls)
+    @dmns.add_exhibit(@imax)
+    @dmns.admit(@patron_1)
+    @dmns.admit(@patron_2)
+    @dmns.admit(@patron_3)
+
+    assert_equal [@patron_1, @patron_2, @patron_3]@dmns.patrons
+  end
+
 end
