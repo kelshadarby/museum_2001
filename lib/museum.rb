@@ -35,14 +35,20 @@ class Museum
     @exhibits.each do |exhibit|
       exhibit_hash[exhibit] = [] if exhibit_hash[exhibit].nil?
       @patrons.each do |patron|
-        recommend_exhibits(patron).each do |recommend_exhibit|
-          if recommend_exhibit == exhibit
+        recommend_exhibits(patron).each do |recommended_exhibit|
+          if recommended_exhibit == exhibit
           exhibit_hash[exhibit] << patron
           end
         end
       end
     end
     exhibit_hash
+  end
+
+  def ticket_lottery_contestants(exhibit)
+    @patrons.find_all do |patron|
+      recommend_exhibits(patron).include?(exhibit) && patron.spending_money < exhibit.cost
+    end
   end
 
 end
