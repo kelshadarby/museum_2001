@@ -30,11 +30,24 @@ class Museum
     @patrons << patron
   end
 
+  def patrons_by_exhibit_interest
+    exhibit_hash = {}
+    @exhibits.each do |exhibit|
+      exhibit_hash[exhibit] = [] if exhibit_hash[exhibit].nil?
+      @patrons.each do |patron|
+        recommend_exhibits(patron).each do |recommend_exhibit|
+          if recommend_exhibit == exhibit
+          exhibit_hash[exhibit] << patron
+          end
+        end
+      end
+    end
+    exhibit_hash
+  end
+
 end
 
-# patrons_by_exhibit_interest, this method takes no arguments and returns a Hash
-#  where each key is an Exhibit. The value associated with that Exhibit is an Array
-#  of all the Patrons that have an interest in that exhibit.
+
 # ticket_lottery_contestants returns an array of patrons that do not have enough
 #  money to see an exhibit, but are interested in that exhibit. The lottery winner
 #   is generated randomly based on the available contestants when draw_lottery_winner
